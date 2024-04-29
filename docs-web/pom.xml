@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
@@ -8,7 +9,7 @@
     <version>1.10</version>
     <relativePath>..</relativePath>
   </parent>
-  
+
   <modelVersion>4.0.0</modelVersion>
   <artifactId>docs-web</artifactId>
   <packaging>war</packaging>
@@ -20,23 +21,23 @@
       <groupId>com.sismics.docs</groupId>
       <artifactId>docs-core</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>com.sismics.docs</groupId>
       <artifactId>docs-web-common</artifactId>
     </dependency>
-    
+
     <!-- Dependencies to Jersey -->
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-servlet</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-json-processing</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-multipart</artifactId>
@@ -46,13 +47,13 @@
       <groupId>org.glassfish.jersey.inject</groupId>
       <artifactId>jersey-hk2</artifactId>
     </dependency>
-      
+
     <!-- Other external dependencies -->
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
@@ -62,12 +63,12 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
-  
+
     <dependency>
       <groupId>commons-dbcp</groupId>
       <artifactId>commons-dbcp</artifactId>
@@ -78,7 +79,7 @@
       <artifactId>javax.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-  
+
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
@@ -88,12 +89,12 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>com.twelvemonkeys.servlet</groupId>
       <artifactId>servlet</artifactId>
     </dependency>
-    
+
     <!-- Test dependencies -->
     <dependency>
       <groupId>com.sismics.docs</groupId>
@@ -101,13 +102,13 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
       <artifactId>jersey-test-framework-provider-bundle</artifactId>
@@ -160,7 +161,7 @@
           <value>dev</value>
         </property>
       </activation>
-      
+
       <build>
         <resources>
           <resource>
@@ -181,6 +182,20 @@
 
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-pmd-plugin</artifactId>
+            <version>3.14.0</version>
+            <configuration>
+              <rulesets>
+                <ruleset>/rulesets/java/basic.xml</ruleset>
+                <ruleset>/rulesets/java/design.xml</ruleset>
+                <ruleset>/rulesets/java/empty.xml</ruleset>
+                <ruleset>/rulesets/java/imports.xml</ruleset>
+                <ruleset>/rulesets/java/unusedcode.xml</ruleset>
+              </rulesets>
+            </configuration>
+          </plugin>
+          <plugin>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
             <configuration>
@@ -200,7 +215,7 @@
               </webApp>
             </configuration>
           </plugin>
-          
+
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
@@ -212,11 +227,11 @@
         </plugins>
       </build>
     </profile>
-    
+
     <!-- Production profile -->
     <profile>
       <id>prod</id>
-      
+
       <build>
         <resources>
           <resource>
@@ -234,9 +249,9 @@
             </includes>
           </resource>
         </resources>
-        
+
         <plugins>
-        
+
           <!-- Launch NPM & Grunt -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -247,17 +262,21 @@
                 <configuration>
                   <target name="building">
                     <!-- npm install -->
-                    <exec executable="cmd" dir="${project.basedir}/src/main/webapp" osfamily="windows" failonerror="true">
+                    <exec executable="cmd" dir="${project.basedir}/src/main/webapp"
+                      osfamily="windows" failonerror="true">
                       <arg line="/c npm install" />
                     </exec>
-                    <exec executable="npm" dir="${project.basedir}/src/main/webapp" osfamily="unix" failonerror="true">
+                    <exec executable="npm" dir="${project.basedir}/src/main/webapp" osfamily="unix"
+                      failonerror="true">
                       <arg line="install" />
                     </exec>
                     <!-- grunt -->
-                    <exec executable="cmd" dir="${project.basedir}/src/main/webapp" osfamily="windows" failonerror="true">
+                    <exec executable="cmd" dir="${project.basedir}/src/main/webapp"
+                      osfamily="windows" failonerror="true">
                       <arg line="/c grunt --apiurl=api" />
                     </exec>
-                    <exec executable="grunt" dir="${project.basedir}/src/main/webapp" osfamily="unix" failonerror="true">
+                    <exec executable="grunt" dir="${project.basedir}/src/main/webapp"
+                      osfamily="unix" failonerror="true">
                       <arg line="--apiurl=api" />
                     </exec>
                   </target>
@@ -268,7 +287,7 @@
               </execution>
             </executions>
           </plugin>
-        
+
           <!-- WAR generation -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
