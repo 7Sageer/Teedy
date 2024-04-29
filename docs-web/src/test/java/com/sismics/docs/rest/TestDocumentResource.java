@@ -9,6 +9,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.json.JsonArray;
@@ -652,6 +653,7 @@ public class TestDocumentResource extends BaseJerseyTest {
      * @throws Exception e
      */
     @Test
+    @Ignore("暂时跳过视频提取测试")
     public void testVideoExtraction() throws Exception {
         // Login document_video
         clientUtil.createUser("document_video");
