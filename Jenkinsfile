@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build("qihr2022/teedy:${BUILD_NUMBER}")
+                    docker.build("qihr2022/teedy:24")
                 }
             }
         }
