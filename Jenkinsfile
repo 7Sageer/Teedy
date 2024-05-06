@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
     
     environment {
         DOCKER_IMAGE = "qihr2022/teedy"
@@ -15,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
+                    docker = docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
                 }
             }
         }
@@ -24,8 +19,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push("latest")
+                        docker.push()
+                        docker.push("latest")
                     }
                 }
             }
@@ -35,13 +30,13 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").pull()
+                        docker.pull()
                     }
 
                     def ports = [8082, 8083, 8084]
                     for (int i = 0; i < ports.size(); i++) {
                         def port = ports[i]
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-d -p ${port}:8080 --name myapp-${port}")
+                        docker.run("-d -p ${port}:8080 --name myapp-${port}")
                     }
                 }
             }

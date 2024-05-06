@@ -1,0 +1,10 @@
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/docs/core/util/TestFileUtil.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/TestResourceUtil.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/TestMimeTypeUtil.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/format/TestPdfFormatHandler.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/TestCss.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/TestGoogleAuthenticator.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/docs/BaseTransactionalTest.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/docs/core/util/TestEncryptUtil.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/util/TestImageUtil.java
+/mnt/d/2024SPRING/Software/Teedy/docs-core/src/test/java/com/sismics/docs/core/dao/jpa/TestJpa.java
