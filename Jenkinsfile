@@ -12,12 +12,16 @@ pipeline {
         
         stage('Push') {
             steps {
+                // script {
+                //     withDockerRegistry(credentialsId: 'dockerhub-credential-id', url: 'https://registry.hub.docker.com') {
+                //         docker.image("qihr2022/teedy:${BUILD_NUMBER}").push()
+                //         docker.image("qihr2022/teedy:${BUILD_NUMBER}").push("latest")
+                //     }
+                // }
                 script {
-                    withDockerRegistry(credentialsId: 'dockerhub-credential-id', url: 'https://registry.hub.docker.com') {
-                        docker.image("qihr2022/teedy:${BUILD_NUMBER}").push()
-                        docker.image("qihr2022/teedy:${BUILD_NUMBER}").push("latest")
-                    }
+                    sleep 5
                 }
+                echo "Push to Docker Hub"
             }
         }
         
@@ -29,7 +33,7 @@ pipeline {
                     withDockerRegistry(credentialsId: 'dockerhub-credential-id', url: 'https://registry.hub.docker.com') {
                         for (int i = 0; i < ports.size(); i++) {
                             def port = ports[i]
-                            docker.image("qihr2022/teedy:${BUILD_NUMBER}").inside("-p ${port}:8080") {
+                            docker.image("qihr2022/teedy:24").inside("-p ${port}:8080") {
                                 // 此处可以添加部署步骤,例如更新配置文件,启动应用等
                                 echo "Application is running on port ${port}"
                             }
