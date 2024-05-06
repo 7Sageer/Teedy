@@ -1,0 +1,10 @@
+com/sismics/util/TestMimeTypeUtil.class
+com/sismics/util/TestGoogleAuthenticator.class
+com/sismics/docs/core/util/TestFileUtil.class
+com/sismics/util/format/TestPdfFormatHandler.class
+com/sismics/util/TestCss.class
+com/sismics/docs/BaseTransactionalTest.class
+com/sismics/util/TestResourceUtil.class
+com/sismics/docs/core/dao/jpa/TestJpa.class
+com/sismics/docs/core/util/TestEncryptUtil.class
+com/sismics/util/TestImageUtil.class

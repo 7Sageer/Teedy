@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.sismics.docs.rest.TestUserResource
--------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 146.078 s - in com.sismics.docs.rest.TestUserResource

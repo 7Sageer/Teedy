@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.sismics.docs.core.util.TestFileUtil
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 54.151 s - in com.sismics.docs.core.util.TestFileUtil
