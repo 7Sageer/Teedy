@@ -1,39 +1,45 @@
-pipeline {
+qihr2022pipeline {
     agent any
+    
+    environment {
+        DOCKER_IMAGE = "qihr2022/teedy"
+        DOCKER_CREDENTIAL_ID = "dockerhub-credential-id"
+    }
+    
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean -DskipTests package'
-            }
-        }
-        stage('pmd') {
-            steps {
-                sh 'mvn pmd:pmd'
-            }
-        }
-        stage('Generate Javadoc') {
-            steps {
-                sh 'mvn javadoc:jar'
-            }
-        }
-        stage('Test') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh 'mvn test'
+                script {
+                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}")
                 }
             }
-            // post {
-            //     always {
-            //         junit 'target/surefire-reports/TEST-*.xml'
-            //     }
-            // }
         }
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-            archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
+        
+        stage('Push') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push("latest")
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").pull()
+                    }
+                    
+                    def ports = [8082, 8083, 8084]
+                    for (int i = 0; i < ports.size(); i++) {
+                        def port = ports[i]
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-d -p ${port}:8080 --name myapp-${port}")
+                    }
+                }
+            }
         }
     }
 }
