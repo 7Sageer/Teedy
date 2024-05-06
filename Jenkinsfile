@@ -12,15 +12,15 @@ pipeline {
         
         stage('Push') {
             steps {
-                // script {
-                //     withDockerRegistry(credentialsId: 'dockerhub-credential-id', url: 'https://registry.hub.docker.com') {
-                //         docker.image("qihr2022/teedy:${BUILD_NUMBER}").push()
-                //         docker.image("qihr2022/teedy:${BUILD_NUMBER}").push("latest")
-                //     }
-                // }
                 script {
-                    sleep 5
+                    withDockerRegistry(credentialsId: 'dockerhub-credential-id', url: 'https://registry.hub.docker.com') {
+                        docker.image("qihr2022/teedy:24").push()
+                        docker.image("qihr2022/teedy:24").push("latest")
+                    }
                 }
+                // script {
+                //     sleep 5
+                // }
                 echo "Push to Docker Hub"
             }
         }
@@ -46,7 +46,7 @@ pipeline {
         stage('Clean') {
             steps {
                 script {
-                    sh "docker rmi qihr2022/teedy:${BUILD_NUMBER}"
+                    sh "docker rmi qihr2022/teedy:24"
                 }
             }
         }
