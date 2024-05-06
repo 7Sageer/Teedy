@@ -18,7 +18,7 @@ pipeline {
         stage('Push') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) { auth ->
                         docker.push()
                         docker.push("latest")
                     }
@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) {
+                    docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) { auth ->
                         docker.pull()
                     }
 
