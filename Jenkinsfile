@@ -1,11 +1,9 @@
 pipeline {
     agent any
-    
     environment {
         DOCKER_IMAGE = "qihr2022/teedy"
         DOCKER_CREDENTIAL_ID = "dockerhub-credential-id"
     }
-
     stages {
         stage('Build') {
             steps {
@@ -14,7 +12,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push') {
             steps {
                 script {
@@ -25,14 +22,12 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIAL_ID) { auth ->
                         docker.pull()
                     }
-
                     def ports = [8082, 8083, 8084]
                     for (int i = 0; i < ports.size(); i++) {
                         def port = ports[i]
