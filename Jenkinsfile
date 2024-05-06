@@ -6,6 +6,10 @@ pipeline {
         DOCKER_CREDENTIAL_ID = "dockerhub-credential-id"
     }
 
+    script {
+        def dockerImage = docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}")
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -15,30 +19,30 @@ pipeline {
             }
         }
 
-stage('Push') {
-    steps {
-        script {
-            withDockerRegistry(credentialsId: DOCKER_CREDENTIAL_ID, url: 'https://registry.hub.docker.com') {
-                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
-                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push("latest")
+        stage('Push') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: DOCKER_CREDENTIAL_ID, url: 'https://registry.hub.docker.com') {
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push("latest")
+                    }
+                }
             }
         }
-    }
-}
 
-stage('Deploy') {
-    steps {
-        script {
-            withDockerRegistry(credentialsId: DOCKER_CREDENTIAL_ID, url: 'https://registry.hub.docker.com') {
-                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").pull()
-            }
-            def ports = [8082, 8083, 8084]
-            for (int i = 0; i < ports.size(); i++) {
-                def port = ports[i]
-                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-d -p ${port}:8080 --name myapp-${port}")
+        stage('Deploy') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: DOCKER_CREDENTIAL_ID, url: 'https://registry.hub.docker.com') {
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").pull()
+                    }
+                    def ports = [8082, 8083, 8084]
+                    for (int i = 0; i < ports.size(); i++) {
+                        def port = ports[i]
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-d -p ${port}:8080 --name myapp-${port}")
+                    }
+                }
             }
         }
-    }
-}
     }
 }
