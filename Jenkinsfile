@@ -1,4 +1,4 @@
-qihr2022pipeline {
+pipeline {
     agent any
     
     environment {
