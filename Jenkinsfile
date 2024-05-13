@@ -39,14 +39,28 @@ pipeline {
                 }
             }
         }
-        
-        stage('Clean') {
+
+        stage('K8s') {
             steps {
-                script {
-                    sh "docker rmi qihr2022/teedy:24"
-                }
+                sh 'kubectl set image deployments/hello-node container-name=qihr2022/teedy:24'
             }
         }
+
+
+        //kubectl create deployment hello-node --image=qihr2022/teedy:24
+        
+        // stage('Clean') {
+        //     steps {
+        //         script {
+        //             def ports = [8082, 8083, 8084]
+        //             for (int i = 0; i < ports.size(); i++) {
+        //                 def port = ports[i]
+        //                 sh "docker stop teedy-${port}"
+        //                 sh "docker rm teedy-${port}"
+        //             }
+        //         }
+        //     }
+        // }
     }
     
     post {
