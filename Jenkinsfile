@@ -42,9 +42,10 @@ pipeline {
 
         stage('K8s') {
             steps {
-                sh 'kubectl set image deployments/hello-node container-name=qihr2022/teedy:24'
+                sh 'kubectl set image deployments/hello-node teedy=qihr2022/teedy:24'
             }
         }
+
 
 
         //kubectl create deployment hello-node --image=qihr2022/teedy:24
